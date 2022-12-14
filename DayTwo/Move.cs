@@ -12,7 +12,7 @@ public sealed class PlayerGameMove
         { Scissors, Paper },
         { Paper, Rock }
     };
-    
+
     public readonly Dictionary<string, uint> MoveToChoiceScore = new()
     {
         { Rock, 1 },
@@ -23,14 +23,34 @@ public sealed class PlayerGameMove
 
 public sealed class OpponentGameMove
 {
-    private const string Rock = "A";
-    private const string Paper = "B";
-    private const string Scissors = "C";
+    public const string Rock = "A";
+    public const string Paper = "B";
+    public const string Scissors = "C";
 
     public readonly Dictionary<string, string> OpponentMoveToPlayerMove = new()
     {
         { Rock, PlayerGameMove.Rock },
         { Scissors, PlayerGameMove.Scissors },
         { Paper, PlayerGameMove.Paper }
+    };
+}
+
+public sealed class PlayerDecisionMove
+{
+    private const string Lose = "X";
+    private const string Draw = "Y";
+    private const string Win = "Z";
+
+    public readonly Dictionary<(string, string), string> DecisionWithOpponentMoveToPlayerMove = new()
+    {
+        { (Lose, OpponentGameMove.Rock), PlayerGameMove.Scissors },
+        { (Lose, OpponentGameMove.Paper), PlayerGameMove.Rock },
+        { (Lose, OpponentGameMove.Scissors), PlayerGameMove.Paper },
+        { (Draw, OpponentGameMove.Rock), PlayerGameMove.Rock },
+        { (Draw, OpponentGameMove.Paper), PlayerGameMove.Paper },
+        { (Draw, OpponentGameMove.Scissors), PlayerGameMove.Scissors },
+        { (Win, OpponentGameMove.Rock), PlayerGameMove.Paper },
+        { (Win, OpponentGameMove.Paper), PlayerGameMove.Scissors },
+        { (Win, OpponentGameMove.Scissors), PlayerGameMove.Rock }
     };
 }
