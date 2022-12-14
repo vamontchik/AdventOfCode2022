@@ -40,12 +40,29 @@ public class CalorieCounter
 
     public uint FindElfWithMostFood()
     {
-        if (_caloriesForAllElves.Count == 0)
-            throw new Exception("Unable to find max due to empty state. Read calories from file first!");
+        CheckForValidState();
 
         return _caloriesForAllElves
-            .Select(caloriesPerElf => caloriesPerElf
-                .Aggregate<uint, uint>(0, (current, calories) => current + calories))
+            .Select(ElfListAggregator)
             .Max();
     }
+
+    public IEnumerable<uint> FindTopThreeElvesWithMostFood()
+    {
+        CheckForValidState();
+
+        return _caloriesForAllElves
+            .Select(ElfListAggregator)
+            .OrderByDescending(x => x)
+            .Take(3);
+    }
+
+    private void CheckForValidState()
+    {
+        if (_caloriesForAllElves.Count == 0)
+            throw new Exception("Unable to find max due to empty state. Read calories from file first!");
+    }
+    
+    private static uint ElfListAggregator(List<uint> caloriesPerElf) => caloriesPerElf
+        .Aggregate<uint, uint>(0, (current, sum) => current + sum);
 }
