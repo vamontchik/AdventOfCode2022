@@ -17,4 +17,6 @@ public sealed class Rucksack
     }
 
     public char FindError() => _firstCompartment.Intersect(_secondCompartment).First();
+
+    public HashSet<char> GetAllCharacters() => _firstCompartment.Union(_secondCompartment).ToHashSet();
 }
