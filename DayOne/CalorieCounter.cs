@@ -1,6 +1,6 @@
 ﻿namespace DayOne;
 
-public class CalorieCounter
+public sealed class CalorieCounter
 {
     private readonly List<List<uint>> _caloriesForAllElves;
 

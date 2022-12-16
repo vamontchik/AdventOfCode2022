@@ -1,6 +1,6 @@
 ﻿namespace DayTwo;
 
-public class GameHandler
+public sealed class GameHandler
 {
     // (player move, opponent move)
     private readonly List<(string, string)> _gameMoves;
