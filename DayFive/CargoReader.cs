@@ -1,6 +1,4 @@
-﻿using System.Text;
-
-namespace DayFive;
+﻿namespace DayFive;
 
 public sealed class CargoReader
 {
@@ -18,6 +16,9 @@ public sealed class CargoReader
 
     public void ReadInitialCargoSetup(string inputFilePath)
     {
+        _cargo.Clear();
+        _moves.Clear();
+        
         PopulateStacksForFile(File.ReadLines(inputFilePath).First());
         ReadLines(File.ReadLines(inputFilePath));
         FixCrateOrientationInStacks();
@@ -104,7 +105,7 @@ public sealed class CargoReader
         _cargo.AddRange(flippedStacks);
     }
 
-    public void PerformMoves()
+    public void PerformMovesFor9000Series()
     {
         foreach (var (count, from, to) in _moves)
         {
@@ -113,6 +114,26 @@ public sealed class CargoReader
             for (var i = 0; i < count; ++i)
             {
                 toStack.Push(fromStack.Pop());
+            }
+        }
+    }
+
+    public void PerformMovesFor9001Series()
+    {
+        foreach (var (count, from, to) in _moves)
+        {
+            var fromStack = _cargo[Convert.ToInt32(from)];
+            var toStack = _cargo[Convert.ToInt32(to)];
+            var tempStack = new Stack<char>();
+            
+            for (var i = 0; i < count; ++i)
+            {
+                tempStack.Push(fromStack.Pop());
+            }
+
+            foreach (var item in tempStack)
+            {
+                toStack.Push(item);
             }
         }
     }
