@@ -16,9 +16,10 @@ public sealed class SignalReader
 
     public int FindMarker()
     {
+        const int distinctCharacterCount = 4;
         for (var i = 0; i < _signal.Length; ++i)
         {
-            if (MarkerFound(i))
+            if (MarkerFound(i, distinctCharacterCount))
             {
                 return i + 1; // (+1) since answer is 1-based
             }
@@ -27,15 +28,31 @@ public sealed class SignalReader
         throw new Exception("No signal found!");
     }
 
-    private bool MarkerFound(int i)
+    public int FindStartOfMessage()
     {
-        if (i < 3)
+        const int distinctCharacterCount = 14;
+        for (var i = 0; i < _signal.Length; ++i)
+        {
+            if (MarkerFound(i, distinctCharacterCount))
+            {
+                return i + 1; // (+1) since answer is 1-based
+            }
+        }
+
+        throw new Exception("No signal found!");
+    }
+
+    private bool MarkerFound(int i, int distinctCharacterCount)
+    {
+        if (i < distinctCharacterCount - 1)
         {
             return false;
         }
 
-        var charactersToCompare = new List<char> { _signal[i], _signal[i - 1], _signal[i - 2], _signal[i - 3] };
+        var charactersToCompare = _signal
+            .Substring(i - (distinctCharacterCount - 1), distinctCharacterCount);
+
         var hashSet = new HashSet<char>(charactersToCompare);
-        return hashSet.Count == 4;
+        return hashSet.Count == distinctCharacterCount;
     }
 }
