@@ -5,7 +5,7 @@ public static class DirectoryDeleter
     private static uint TotalSize => 70000000U; // 70 mil
     private static uint SizeNeededForUpdate => 30000000U; // 30 mil
 
-    public static uint CalculateSizeOfDirectoryNeededForDeletion(DirectoryStructure directoryStructure)
+    public static uint CalculateMinSizeOfDirectoryNeededForDeletion(DirectoryStructure directoryStructure)
     {
         var sizeNeededForDeletion = CalculateSizeNeededForDeletion(directoryStructure);
         var possibleDirectories = directoryStructure

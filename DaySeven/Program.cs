@@ -15,5 +15,5 @@ Console.WriteLine(sum);
 // Part Two
 
 var sizeOfDirectoryNeededForDeletion = DirectoryDeleter
-    .CalculateSizeOfDirectoryNeededForDeletion(directoryStructure);
+    .CalculateMinSizeOfDirectoryNeededForDeletion(directoryStructure);
 Console.WriteLine(sizeOfDirectoryNeededForDeletion);
