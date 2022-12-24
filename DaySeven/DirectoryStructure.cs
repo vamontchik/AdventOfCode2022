@@ -14,6 +14,8 @@ public sealed class DirectoryStructure
         CurrentDirectory = string.Empty;
     }
 
+    #region State Manipulation
+
     public void MoveToNewDirectory(string newDirectory)
     {
         if (CurrentDirectory.Equals("/"))
@@ -67,7 +69,9 @@ public sealed class DirectoryStructure
         Directories[CurrentDirectory][directoryName] = -1;
     }
 
-    // // // // // // // // // // // // // // // // // // // // // // 
+    #endregion
+
+    #region Size Calculation
 
     public uint CalculateSizeAtDirectory(string directoryName)
     {
@@ -88,5 +92,11 @@ public sealed class DirectoryStructure
         return total;
     }
 
+    #endregion
+
+    #region Helper Methods
+
     public IEnumerable<string> GetDirectories() => Directories.Keys;
+
+    #endregion
 }

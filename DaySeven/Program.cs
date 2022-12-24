@@ -8,6 +8,12 @@ var directoryStructure = new DirectoryStructure();
 
 DirectoryReader.PopulateFromLines(lines, directoryStructure);
 
-var sum = DirectorySizeCalculator.CalculateSumOfDirectorySizesUnderThreshold(directoryStructure);
-
+const uint threshold = 100000U;
+var sum = DirectorySizeCalculator.CalculateSumOfDirectorySizesUnderThreshold(directoryStructure, threshold);
 Console.WriteLine(sum);
+
+// Part Two
+
+var sizeOfDirectoryNeededForDeletion = DirectoryDeleter
+    .CalculateSizeOfDirectoryNeededForDeletion(directoryStructure);
+Console.WriteLine(sizeOfDirectoryNeededForDeletion);

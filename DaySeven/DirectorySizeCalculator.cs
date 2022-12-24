@@ -2,16 +2,14 @@
 
 public static class DirectorySizeCalculator
 {
-    public static uint CalculateSumOfDirectorySizesUnderThreshold(DirectoryStructure directoryStructure)
+    public static uint CalculateSumOfDirectorySizesUnderThreshold(DirectoryStructure directoryStructure, uint threshold)
     {
-        const uint threshold = 100000U;
-        
-        var acceptableDirectorySizes = directoryStructure
+        var sum = directoryStructure
             .GetDirectories()
             .Select(directoryStructure.CalculateSizeAtDirectory)
             .Where(size => size <= threshold)
-            .ToList();
+            .Sum(x => x);
 
-        return Convert.ToUInt32(acceptableDirectorySizes.Sum(x => x));
+        return Convert.ToUInt32(sum);
     }
 }
