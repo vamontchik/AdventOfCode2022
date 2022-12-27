@@ -36,7 +36,7 @@ public sealed class Trees
     public uint CalculateAmountOfVisibleTrees()
     {
         var amount = 0U;
-        
+
         for (var row = 0U; row < _rows; ++row)
         {
             for (var col = 0U; col < _columns; ++col)
@@ -62,12 +62,12 @@ public sealed class Trees
         var possiblyNegativeRow = Convert.ToInt32(row);
 
         possiblyNegativeRow--;
-        
+
         while (possiblyNegativeRow >= 0)
         {
             if (currentValue <= _trees[possiblyNegativeRow, col])
                 return false;
-            
+
             possiblyNegativeRow--;
         }
 
@@ -85,7 +85,7 @@ public sealed class Trees
         {
             if (currentValue <= _trees[row, possiblyNegativeCol])
                 return false;
-            
+
             possiblyNegativeCol--;
         }
 
@@ -95,16 +95,15 @@ public sealed class Trees
     private bool VisibleFromRight(uint row, uint col)
     {
         var currentValue = _trees[row, col];
-        var possiblyTooLargeCol = Convert.ToInt32(col);
 
-        possiblyTooLargeCol++;
+        col++;
 
-        while (possiblyTooLargeCol < _columns)
+        while (col < _columns)
         {
-            if (currentValue <= _trees[row, possiblyTooLargeCol])
+            if (currentValue <= _trees[row, col])
                 return false;
 
-            possiblyTooLargeCol++;
+            col++;
         }
 
         return true;
@@ -113,18 +112,125 @@ public sealed class Trees
     private bool VisibleFromBottom(uint row, uint col)
     {
         var currentValue = _trees[row, col];
-        var possiblyTooLargeRow = Convert.ToInt32(row);
 
-        possiblyTooLargeRow++;
+        row++;
 
-        while (possiblyTooLargeRow < _rows)
+        while (row < _rows)
         {
-            if (currentValue <= _trees[possiblyTooLargeRow, col])
+            if (currentValue <= _trees[row, col])
                 return false;
 
-            possiblyTooLargeRow++;
+            row++;
         }
 
         return true;
+    }
+
+    public uint CalculateMaximumScenicScore()
+    {
+        var max = 0U;
+
+        for (var row = 0U; row < _rows; ++row)
+        {
+            for (var col = 0U; col < _columns; ++col)
+            {
+                var scenicScoreLookingUp = ScenicScoreLookingUp(row, col);
+                var scenicScoreLookingLeft = ScenicScoreLookingLeft(row, col);
+                var scenicScoreLookingRight = ScenicScoreLookingRight(row, col);
+                var scenicScoreLookingDown = ScenicScoreLookingDown(row, col);
+
+                var currentScore = scenicScoreLookingUp *
+                                   scenicScoreLookingLeft *
+                                   scenicScoreLookingRight *
+                                   scenicScoreLookingDown;
+
+                if (max < currentScore)
+                    max = currentScore;
+            }
+        }
+
+        return max;
+    }
+
+    private uint ScenicScoreLookingUp(uint row, uint col)
+    {
+        var currentTreeHeight = _trees[row, col];
+        var rowIteration = Convert.ToInt32(row);
+        var distance = 0U;
+
+        rowIteration--;
+
+        while (rowIteration >= 0)
+        {
+            distance++;
+
+            if (currentTreeHeight <= _trees[rowIteration, col])
+                break;
+
+            rowIteration--;
+        }
+
+        return distance;
+    }
+
+    private uint ScenicScoreLookingLeft(uint row, uint col)
+    {
+        var currentTreeHeight = _trees[row, col];
+        var colIteration = Convert.ToInt32(col);
+        var distance = 0U;
+
+        colIteration--;
+
+        while (colIteration >= 0)
+        {
+            distance++;
+
+            if (currentTreeHeight <= _trees[row, colIteration])
+                break;
+
+            colIteration--;
+        }
+
+        return distance;
+    }
+
+    private uint ScenicScoreLookingRight(uint row, uint col)
+    {
+        var currentTreeHeight = _trees[row, col];
+        var distance = 0U;
+
+        col++;
+
+        while (col < _columns)
+        {
+            distance++;
+
+            if (currentTreeHeight <= _trees[row, col])
+                break;
+
+            col++;
+        }
+
+        return distance;
+    }
+
+    private uint ScenicScoreLookingDown(uint row, uint col)
+    {
+        var currentTreeHeight = _trees[row, col];
+        var distance = 0U;
+
+        row++;
+
+        while (row < _rows)
+        {
+            distance++;
+
+            if (currentTreeHeight <= _trees[row, col])
+                break;
+
+            row++;
+        }
+
+        return distance;
     }
 }
